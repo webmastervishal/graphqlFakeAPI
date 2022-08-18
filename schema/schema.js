@@ -8,6 +8,7 @@ const {
   GraphQLSchema,
   GraphQLList,
   GraphQLNonNull,
+  GraphQLBoolean,
 } = graphql;
 
 const UserType = new GraphQLObjectType({
@@ -16,6 +17,15 @@ const UserType = new GraphQLObjectType({
     id: { type: GraphQLString },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
+  },
+});
+
+const TodoType = new GraphQLObjectType({
+  name: "Todo",
+  fields: {
+    id: { type: GraphQLString },
+    title: { type: GraphQLString },
+    status: { type: GraphQLBoolean },
   },
 });
 
@@ -37,6 +47,12 @@ const RootQuery = new GraphQLObjectType({
         return axios.get(`http://localhost:8900/users`).then((res) => res.data);
       },
     },
+    todos: {
+      type: new GraphQLList(TodoType),
+      resolve(parentValue, args) {
+        return axios.get(`http://localhost:8900/todos`).then((res) => res.data);
+      },
+    },
   },
 });
 
@@ -56,6 +72,32 @@ const MutationQuery = new GraphQLObjectType({
             age: args.age,
           })
           .then((res) => res.data);
+      },
+    },
+    addTodo: {
+      type: TodoType,
+      args: {
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        status: { type: GraphQLBoolean },
+      },
+      resolve(parentValue, args) {
+        return axios
+          .post(`http://localhost:8900/todos`, {
+            title: args.title,
+            status: false,
+          })
+          .then((res) => res.data);
+      },
+    },
+    updateTodo: {
+      type: TodoType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parentValue, args) {
+        return axios.patch(`http://localhost:8900/todos/${args.id}`, {
+          status: true,
+        });
       },
     },
   },

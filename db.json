@@ -25,5 +25,27 @@
       "age": 33,
       "id": "kA6TC91"
     }
+  ],
+  "todos": [
+    {
+      "status": true,
+      "title": "Learn React JS Basics",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "title": "Learn React Hooks",
+      "status": true
+    },
+    {
+      "id": "3",
+      "title": "Learn Graphql Integration with React",
+      "status": false
+    },
+    {
+      "title": "Testing",
+      "status": false,
+      "id": "7T8UAea"
+    }
   ]
 }
