@@ -11,15 +11,6 @@ const {
   GraphQLBoolean,
 } = graphql;
 
-const UserType = new GraphQLObjectType({
-  name: "User",
-  fields: {
-    id: { type: GraphQLString },
-    name: { type: GraphQLString },
-    age: { type: GraphQLInt },
-  },
-});
-
 const TodoType = new GraphQLObjectType({
   name: "Todo",
   fields: {
@@ -32,21 +23,6 @@ const TodoType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
-    user: {
-      type: UserType,
-      args: { id: { type: GraphQLString } },
-      resolve(parentValue, args) {
-        return axios
-          .get(`http://localhost:8900/users/${args.id}`)
-          .then((res) => res.data);
-      },
-    },
-    users: {
-      type: new GraphQLList(UserType),
-      resolve(parentValue, args) {
-        return axios.get(`http://localhost:8900/users`).then((res) => res.data);
-      },
-    },
     todos: {
       type: new GraphQLList(TodoType),
       resolve(parentValue, args) {
@@ -59,21 +35,6 @@ const RootQuery = new GraphQLObjectType({
 const MutationQuery = new GraphQLObjectType({
   name: "MutationQueryType",
   fields: {
-    addUser: {
-      type: UserType,
-      args: {
-        name: { type: new GraphQLNonNull(GraphQLString) },
-        age: { type: new GraphQLNonNull(GraphQLInt) },
-      },
-      resolve(parentValue, args) {
-        return axios
-          .post(`http://localhost:8900/users`, {
-            name: args.name,
-            age: args.age,
-          })
-          .then((res) => res.data);
-      },
-    },
     addTodo: {
       type: TodoType,
       args: {
