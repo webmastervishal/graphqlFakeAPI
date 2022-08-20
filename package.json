@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "start:api": "json-server --watch db.json --port 8900"
   },
   "author": "",
   "license": "ISC",
