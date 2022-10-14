@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run start:api && node index.js",
+    "start": "npm run start:api & node index.js",
     "start:api": "json-server --watch db.json --port 8900"
   },
   "author": "",
